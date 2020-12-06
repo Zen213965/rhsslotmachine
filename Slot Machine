@@ -1,37 +1,210 @@
+# NAME: Adrian Laurente
+# DATE: 11/12/2020
+# PERIOD: 3
+# PROGRAM: Simple and working Slot Machine game
+# PROGRAM DESCRIPTION:
+#   This is a game that simulates a slot machine where any of the following combinations
+#   on three spinning wheels generate a payoff.  The rules of the game are:
+#       1. The winning combinations are:
+#           - 7 7 7 is jackpot that pays $100
+#           - BAR BAR BAR pays $50
+#           - Any other three of the same kind pays $10
+#           - Two consecutive 7's and a BAR pays $20
+#	        - Any two of the same kind and a BAR pays $10
+#	        - Any two 7's pays $5
+#	        - Any two BAR's pays $2
+#       2. Any other combinations that are not listed above will count as a loss
+#       3. The player will have $1 be taken out of their wallet when intiating a crank from the slot machine
+#       4. The player will deposit an amount of money to start the game.
+#   When the player is out of money it will bring up a prompt telling the player if they would like to play again or not.
+
+# Makes the slot machine randomize
 import random
-slotmachinelist = ["1", "2", "3"]
 
-def main():
-    # Starts the user off with 100 dollars and prints the introduction text
-    moneymoney = 100
-    print("Welcome to slots game.")
-    while moneymoney > 0:
-        print("You have", moneymoney, "dollars")
-            bet = int(input("Place your bets: "))
-        except:
-            print("Please enter a number of dollars")
-            continue
-        if bet > moneymoney:
-            print("Not enough money.")
-        else:
-            # The code will take the symbols from the list
-            moneymoney = bet
-            symbol_one = random.choice(slotmachinelist)
-            symbol_two = random.choice(slotmachinelist)
-            symbol_three = random.choice(slotmachinelist)
+# Begins the slot machine wheels
+first = "[START]"
+second = "[START]"
+third = "[START]"
 
+# This list contains the seven slot machine items that will be used for the combinations.
+ITEMS = ["[ 7 ]", "[BAR]", "[BELL]", "[PLUM]", "[ORANGE]", "[CHERRY]", "[LEMON]"]
+
+# Begins the actual slot machine game
+finished = False
+valid = False
+
+# Prints the game introduction
+print()
+print("======= SIMPLE SLOT MACHINE =======")
+print(" Cost ONE DOLLAR each game to play ")
+print("===================================")
+print()
+
+# Starts the game
+print("$$$$$$$  LET'S PLAY  $$$$$$$")
+print()
+
+# This will ask the player how much money they want to play with
+while (valid == False):
+    money = input("Enter amount of money to play with: ")
+    if money.isdigit():
+        bucket = int(money)
+        if (bucket == 0):
+            print("ERROR: Please enter a valid amount.")
             print()
-            # This is where the symbols will be placed
-            print("|", random.choice(slotmachinelist), "|", random.choice(slotmachinelist), "|", random.choice(slotmachinelist), "|")
-            print("")
-            if symbol_one == symbol_two and symbol_two == symbol_three:
-                amountwon = bet*2
-                print("You won", amountwon, "dollars.")
-                moneymoney += amountwon
-            else:
-                print("You lost")
-    print("You are currently out of money.")
-    print("Thanks for playing.")
+        else:
+            valid = True
+    else:
+        print("ERROR: Invalid value.  Please re-enter.")
+        print()
+
+# Once the player decides what amount of money they want to play with it will print this text and tell the player to now start playing
+print()
+print("Thank You !!!!")
+input("Let's Play ... Press ENTER key to start.")
+
+# Play the game with a while loop
+while (finished == False):
+
+    # Sets a value for winning
+    win = 0
+
+    # Crank the slot machine
+    randomValue = random.randint(0,6)
+    first = ITEMS[randomValue]
+
+    randomValue = random.randint(0,6)
+    second = ITEMS[randomValue]
+
+    randomValue = random.randint(0,6)
+    third = ITEMS[randomValue]
+
+    # Show the result of the slot machine
+    print()
+    print("================================")
+    print(first + " " + second + " " + third)
+    print("================================")
     print()
 
-main()
+    # The bucket will be updated if the player gets a winning combo
+
+    # First combination is 3 of any kind, these combinations will randomize as the player goes on
+    if((first == "[ 7 ]") and (second == "[ 7 ]") and (third == "[ 7 ]")):
+        print("***** JACKPOT *****")
+        print("You win $100 !!!!!!")
+        win = 100
+    elif((first == "[BAR]") and (second == "[BAR]") and (third == "[BAR]")):
+        print("You win $50")
+        win = 50
+    elif((first == "[BELL]") and (second == "[BELL]") and (third == "[BELL]")):
+        print("You win $30")
+        win = 30
+    elif((first == "[PLUM]") and (second == "[PLUM]") and (third == "[PLUM]")):
+        print("You win $30")
+        win = 30
+    elif((first == "[ORANGE]") and (second == "[ORANGE]") and (third == "[ORANGE]")):
+        print("You win $30")
+        win = 30
+    elif((first == "[CHERRY]") and (second == "[CHERRY]") and (third == "[CHERRY]")):
+        print("You win $30")
+        win = 30
+    elif((first == "[LEMON]") and (second == "[LEMON]") and (third == "[LEMON]")):
+        print("You win $30")
+        win = 30
+
+    # Second combination of two 7's and a BAR
+    elif((first == "[ 7 ]") and (second == "[ 7 ]") and (third == "[BAR]")):
+        print("You win $20")
+        win = 20
+    elif((first == "[BAR]") and (second == "[ 7 ]") and (third == "[ 7 ]")):
+        print("You win $20")
+        win = 20
+
+    # Third combination is two of any fruits and a BAR
+    elif((first == "[BELL]") and (second == "[BELL]") and (third == "[BAR]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[BAR]") and (second == "[BELL]") and (third == "[BEL]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[PLUM]") and (second == "[PLUM]") and (third == "[BAR]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[BAR]") and (second == "[PLUM]") and (third == "[PLUM]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[ORANGE]") and (second == "[ORANGE]") and (third == "[BAR]")):
+        print("You win $10")
+        win = 10
+    elif ((first == "[BAR]") and (second == "[ORANGE]") and (third == "[ORANGE]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[CHERRY]") and (second == "[CHERRY]") and (third == "[BAR]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[BAR]") and (second == "[CHERRY]") and (third == "[CHERRY]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[LEMON]") and (second == "[LEMON]") and (third == "[BAR]")):
+        print("You win $10")
+        win = 10
+    elif((first == "[BAR]") and (second == "[LEMON]") and (third == "[LEMON]")):
+        print("You win $10")
+        win = 10
+
+    # Fourth combination is any two 7's
+    elif((first == "[ 7 ]") and (second == "[ 7 ]")):
+        print("You win $5")
+        win = 5
+    elif((first == "[ 7 ]") and (third == "[ 7 ]")):
+        print("You win $5")
+        win = 5
+    elif((second == "[ 7 ]") and (third == "[ 7 ]")):
+        print("You win $5")
+        win = 5
+
+    # Fifth combination is two BAR's
+    elif((first == "[BAR]") and (second == "[BAR]")):
+        print("You win $2")
+        win = 2
+    elif((first == "[BAR]") and (third == "[BAR]")):
+        print("You win $2")
+        win = 2
+    elif((second == "[BAR]") and (third == "[BAR]")):
+        print("You win $2")
+        win = 2
+
+    else:
+        # Obviously this text will tell the player that they aren't lucky
+        print("Sorry... This isn't a winning combination... Try Again!!!")
+        win = -1
+
+    # The bucket will be updated with the winnings that the player earned
+    bucket += win
+
+    # If the game detects that the player is out of money it will print this text saying that player is out of money and will
+    # Begin to ask the player whether to continue or quit the game and if it detects that the player does have money it will ask.
+    # If they want to continue or not.
+    if (bucket <= 0):
+        finished = True
+        print("======== GAME OVER =======")
+        print("   You are out of money, yikes!")
+        print("======== GAME OVER =======")
+    else:
+        # Player has money. Ask to continue or quit.
+        print("You have $" + str(bucket))
+        print()
+        choice = input("Press Enter to continue or 'n' to quit: ")
+        choice = choice.lower()
+        if (choice == "n"):
+            finished = True
+
+print()
+
+# This ending text will print the money that the player started with and the money that the player finshed with.
+if (bucket > 0):
+    print("Thanks for playing!!!")
+    print("You started with $" + str(money))
+    print("Finished with $" + str(bucket) + " left in the bucket")
+else:
+    print("Sorry you lost everything !!! *Sad Face*.")
